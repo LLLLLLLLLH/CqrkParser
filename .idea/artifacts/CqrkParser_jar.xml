@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact name="CqrkParser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CqrkParser_jar</output-path>
+    <root id="root">
+      <element id="archive" name="CqrkParser.jar">
+        <element id="module-output" name="CqrkParser" />
+        <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.16.1" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.9.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.9.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
+        <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0" />
+      </element>
+    </root>
+  </artifact>
+</component>
