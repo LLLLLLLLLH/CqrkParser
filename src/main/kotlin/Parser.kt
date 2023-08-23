@@ -1,6 +1,5 @@
 import bean.CourseInfo
 import bean.Info
-import kotlinx.coroutines.delay
 import org.jsoup.Jsoup
 
 
@@ -23,7 +22,7 @@ class Parser(private val url: String, private val cookie: String) {
      */
     fun convert(): MutableList<Info> {
         SslUtils.trustEveryone()
-        for (i in 1..3) {
+        for (i in 1..17) {
             courseInfoList = mutableListOf()
             val currentUrl = "$url?zc=$i"
             val document = Jsoup.connect(currentUrl).cookie("Cookie", cookie).get()
@@ -33,8 +32,8 @@ class Parser(private val url: String, private val cookie: String) {
                 elements.select("tr").eq(n).select("td").forEachIndexed { date, td ->
                     td.select("div[class=kbcontent]").forEach { div ->
                         if (div.text() != "") {
-                            val teacher = div.select("font[title=老师]").text()
-                            val section = div.select("font[title=周次(节次)]").text()
+                            val teacher = handleTeacher(div.select("font[title=老师]").text())
+                            val section = handleSection(div.select("font[title=周次(节次)]").text())
                             val room = div.select("font[title=教室]").text()
                             courseInfoList.add(CourseInfo(date + 1, teacher, section, room))
                         }
@@ -45,6 +44,22 @@ class Parser(private val url: String, private val cookie: String) {
             }
         }
         return data
+    }
+
+    private fun handleSection(section: String): String {
+        val begin = section.indexOf("[") + 1
+        val end = section.indexOf("]")
+        return section.substring(begin, end)
+    }
+
+    private fun handleTeacher(teacher: String) = when {
+        teacher.contains("无") -> teacher.substring(0, teacher.indexOf("无"))
+        teacher.contains("副高") -> teacher.substring(0, teacher.indexOf("副高"))
+        teacher.contains("中级") -> teacher.substring(0, teacher.indexOf("中级"))
+        teacher.contains("未评级") -> teacher.substring(0, teacher.indexOf("未评级"))
+        teacher.contains("初级") -> teacher.substring(0, teacher.indexOf("初级"))
+        teacher.contains("高级") -> teacher.substring(0, teacher.indexOf("高级"))
+        else -> teacher // 如果都不符合条件，则返回原字符串
     }
 
 
